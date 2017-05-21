@@ -142,7 +142,7 @@ def produce_msg(core, msgList):
         elif m['MsgType'] == 49: # sharing
             if m['AppMsgType'] == 6:
                 rawMsg = m
-                cookiesList = {name:data for name,data in core.s.cookies.items()}
+                cookiesList = {name:data for name,data in list(core.s.cookies.items())}
                 def download_atta(attaDir=None):
                     url = core.loginInfo['fileUrl'] + '/webwxgetmedia'
                     params = {
@@ -183,7 +183,7 @@ def produce_msg(core, msgList):
                 regx = r'\[CDATA\[(.+?)\][\s\S]+?\[CDATA\[(.+?)\]'
                 data = re.search(regx, m['Content'])
                 if data:
-                    data = data.group(2).split(u'\u3002')[0]
+                    data = data.group(2).split('\u3002')[0]
                 else:
                     data = 'You may found detailed info in Content key.'
                 msg = {
@@ -249,7 +249,7 @@ def produce_group_chat(core, msg):
         msg['ActualNickName'] = member.get('DisplayName', '') or member['NickName']
         atFlag = '@' + (chatroom['Self'].get('DisplayName', '') or core.storageClass.nickName)
         msg['IsAt'] = (
-            (atFlag + (u'\u2005' if u'\u2005' in msg['Content'] else ' '))
+            (atFlag + ('\u2005' if '\u2005' in msg['Content'] else ' '))
             in msg['Content'] or msg['Content'].endswith(atFlag))
     msg['ActualUserName'] = actualUserName
     msg['Content']        = content
@@ -338,7 +338,7 @@ def upload_chunk_file(core, fileDir, fileSymbol, fileSize,
     url = core.loginInfo.get('fileUrl', core.loginInfo['url']) + \
         '/webwxuploadmedia?f=json'
     # save it on server
-    cookiesList = {name:data for name,data in core.s.cookies.items()}
+    cookiesList = {name:data for name,data in list(core.s.cookies.items())}
     fileType = mimetypes.guess_type(fileDir)[0] or 'application/octet-stream'
     files = OrderedDict([
         ('id', (None, 'WU_FILE_0')),

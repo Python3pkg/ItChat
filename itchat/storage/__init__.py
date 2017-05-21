@@ -86,7 +86,7 @@ class Storage(object):
                 if matchDict: # select again based on matchDict
                     friendList = []
                     for m in contact:
-                        if all([m.get(k) == v for k, v in matchDict.items()]):
+                        if all([m.get(k) == v for k, v in list(matchDict.items())]):
                             friendList.append(m)
                     return copy.deepcopy(friendList)
                 else:

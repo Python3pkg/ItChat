@@ -126,13 +126,13 @@ class AbstractUserDict(AttributeDict):
                 self.__class__.__name__, }, })
     def __deepcopy__(self, memo):
         r = self.__class__()
-        for k, v in self.items():
+        for k, v in list(self.items()):
             r[copy.deepcopy(k)] = copy.deepcopy(v)
         r.core = self.core
         return r
     def __str__(self):
         return '{%s}' % ', '.join(
-            ['%s: %s' % (repr(k),repr(v)) for k,v in self.items()])
+            ['%s: %s' % (repr(k),repr(v)) for k,v in list(self.items())])
     def __repr__(self):
         return '<%s: %s>' % (self.__class__.__name__.split('.')[-1],
             self.__str__())
@@ -237,7 +237,7 @@ class Chatroom(AbstractUserDict):
                 if matchDict: # select again based on matchDict
                     friendList = []
                     for m in contact:
-                        if all([m.get(k) == v for k, v in matchDict.items()]):
+                        if all([m.get(k) == v for k, v in list(matchDict.items())]):
                             friendList.append(m)
                     return copy.deepcopy(friendList)
                 else:

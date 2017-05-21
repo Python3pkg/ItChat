@@ -1,7 +1,7 @@
 import re, os, sys, subprocess, copy, traceback, logging
 
 try:
-    from HTMLParser import HTMLParser
+    from html.parser import HTMLParser
 except ImportError:
     from html.parser import HTMLParser
 
@@ -14,7 +14,7 @@ logger = logging.getLogger('itchat')
 emojiRegex = re.compile(r'<span class="emoji emoji(.{1,10})"></span>')
 htmlParser = HTMLParser()
 try:
-    b = u'\u2588'
+    b = '\u2588'
     sys.stdout.write(b + '\r')
     sys.stdout.flush()
 except UnicodeEncodeError:
@@ -99,7 +99,7 @@ def print_cmd_qr(qrText, white=BLOCK, black='  ', enableCmdQR=True):
 
 def struct_friend_info(knownInfo):
     member = copy.deepcopy(friendInfoTemplate)
-    for k, v in copy.deepcopy(knownInfo).items(): member[k] = v
+    for k, v in list(copy.deepcopy(knownInfo).items()): member[k] = v
     return member
 
 def search_dict_list(l, key, value):
@@ -147,7 +147,7 @@ def update_info_dict(oldInfoDict, newInfoDict):
     ''' only normal values will be updated here
         because newInfoDict is normal dict, so it's not necessary to consider templates
     '''
-    for k, v in newInfoDict.items():
+    for k, v in list(newInfoDict.items()):
         if any((isinstance(v, t) for t in (tuple, list, dict))):
             pass # these values will be updated somewhere else
         elif oldInfoDict.get(k) is None or v not in (None, '', '0', 0):

@@ -1,6 +1,6 @@
 import logging
 try:
-    import Queue as queue
+    import queue as queue
 except ImportError:
     import queue
 
@@ -26,7 +26,7 @@ class Message(AttributeDict):
         return super(Message, self).__getitem__(value)
     def __str__(self):
         return '{%s}' % ', '.join(
-            ['%s: %s' % (repr(k),repr(v)) for k,v in self.items()])
+            ['%s: %s' % (repr(k),repr(v)) for k,v in list(self.items())])
     def __repr__(self):
         return '<%s: %s>' % (self.__class__.__name__.split('.')[-1],
             self.__str__())

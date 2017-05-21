@@ -1,6 +1,6 @@
 import logging, traceback, sys, threading
 try:
-    import Queue
+    import queue
 except ImportError:
     import queue as Queue
 
@@ -44,7 +44,7 @@ def configured_reply(self):
     '''
     try:
         msg = self.msgList.get(timeout=1)
-    except Queue.Empty:
+    except queue.Empty:
         pass
     else:
         if isinstance(msg['User'], templates.User):
